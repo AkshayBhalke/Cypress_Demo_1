@@ -30,7 +30,7 @@ class LoginPage {
         this.ssoButton.click();
         cy.wait(200);
 
-        cy.origin('https://login.tools.np.vocera.io/', { args: { username, password } }, ({ username, password }) => {
+        cy.origin('https://login.\ocera.io/', { args: { username, password } }, ({ username, password }) => {
             this.userName.type(username);
             this.password.type(password);
             this.loginButton.click();
