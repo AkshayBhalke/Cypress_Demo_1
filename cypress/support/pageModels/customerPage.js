@@ -1,40 +1,28 @@
 class CustomerPage {
+  customerLabel = () => cy.get('[apptestid="customer"]');
+  customerDropdownInput = () => cy.get('[apptestid="customer_search_input"]');
+  removeCustomerButton = () => cy.get('[apptestid="remove-customer"]');
+  options = () => cy.get('.customer-name');
 
-  get customerLabel() {
-    return cy.get('[apptestid="customer"]');
-  }
+  clickCustomerDropdown = () => {
+    this.customerDropdownInput().click();
+  };
 
-  get customerDropdownInput() {
-    return cy.get('[apptestid="customer_search_input"]');
-  }
+  typeCustomer = (name) => {
+    this.customerDropdownInput().type(name);
+  };
 
-  get removeCustomerButton() {
-    return cy.get('[apptestid="remove-customer"]');
-  }
+  selectCustomerByName = (name) => {
+    this.options().contains(name).click();
+  };
 
-  get options() {
-    return cy.get('.customer-name');
-  }
+  clearCustomerSelection = () => {
+    this.removeCustomerButton().click();
+  };
 
-  clickCustomerDropdown() {
-    this.customerDropdownInput.click();
-  }
-
-  typeCustomer(name) {
-    this.customerDropdownInput.type(name);
-  }
-
-  selectCustomerByName(name) {
-    this.options.contains(name).click();
-  }
-
-  clearCustomerSelection() {
-    this.removeCustomerButton.click();
-  }
-
-  getSelectedCustomer() {
-    return this.customerDropdownInput;
-  }
+  getSelectedCustomer = () => {
+    return this.customerDropdownInput();
+  };
 }
 
 export default new CustomerPage();
