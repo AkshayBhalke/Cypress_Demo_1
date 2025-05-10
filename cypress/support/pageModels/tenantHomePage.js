@@ -1,69 +1,71 @@
-const tenantHomePage = {
+import UiConstants from '../constants/UiConstants';
 
-    elements: {
-        getTenantCreateButton: () => cy.get('tenant-root').shadow().find('[apptestid="btn_create-tenant"]'),
-        getDialogTitle: () => cy.get('.dialog-title'),
-        getCustomerLabel: () => cy.get('[apptestid="customer"]'),
-        getCustomerInput: () => cy.get('[apptestid="customer_search_input"]'),
-        getDisplayNameLabel: ()=> cy.get('[apptestid="display_name"]'),
-        getDisplayNameField: ()=> cy.get('[apptestid="input_display_name"]'),
-        getEnvironmentTypeLabel: ()=> cy.get('[apptestid="environment_type"]'),
-        getEnvironmentTypeDropDown: ()=> cy.get('[apptestid="environmentType_dropdown"]'),
-        getSaveButtton: () => cy.get('[apptestid="btn_save"]'),
-        getTenantCreatedSuccessfully: () => cy.get('.success'),
-        getSearchCustomer: ()=> cy.get('[apptestid="input_tenant_search"]'),
-        
-        
-        
-
-       selectCustomerDropDown() {
-            this.getCustomerInput().click()
-            return cy.get('[apptestid="customer.euid"]').eq(1)
-        },
-        
-        typeDisplayName(Name){
-            this.getDisplayNameField().type('a1 test')
-        },
-
-        selectEnvironmentTypeDropDown() {
-
-            cy.get('[apptestid="environmentType_dropdown"]').click()
-            return cy.get('[apptestid^="environmentType').eq(3)
-        },
-
-        getSaveButtton(){
-            this.getSaveButtton().click()
-
-        },
-        
-        TenantCreatedSuccessfully(){
-            this.getTenantCreatedSuccessfully().should('be.visible')
-        },
-
-
-  
-        // TenantCreatedSuccessfullyNotVisible(){
-        //     //this.getTenantCreatedSuccessfully().should('not.be.visible')
-        //     cy.get('.success').should('not.be.visible')
-        // }
-     
-    },
-
-
-
-    loginToApplication(_username, _password) {
-        const sentArgs = { username: _username, password: _password }
-        this.elements.getLoginPageTitleLabel().should('have.text', 'Vocera Operations Tools')
-        this.elements.getSSOButton().click()
-        
-
-        cy.origin('https://login.tools.np.vocera.io/', { args: sentArgs }, ({ username, password }) => {
-            cy.get('#username').type(username)
-            cy.get('#password').type(password)
-            cy.get('#kc-login').click()
-        })
+class TenantHomePage {
+    get createButton() {
+      return cy.get('tenant-root').shadow().find('[apptestid="btn_create-tenant"]');
     }
-
-}
-
-export default tenantHomePage
+  
+    get dialogTitle() {
+      return cy.get('.dialog-title');
+    }
+  
+    get customerLabel() {
+      return cy.get('[apptestid="customer"]');
+    }
+  
+    get customerInput() {
+      return cy.get('[apptestid="customer_search_input"]');
+    }
+  
+    get displayNameLabel() {
+      return cy.get('[apptestid="display_name"]');
+    }
+  
+    get displayNameField() {
+      return cy.get('[apptestid="input_display_name"]');
+    }
+  
+    get environmentTypeLabel() {
+      return cy.get('[apptestid="environment_type"]');
+    }
+  
+    get environmentTypeDropdown() {
+      return cy.get('[apptestid="environmentType_dropdown"]');
+    }
+  
+    get saveButton() {
+      return cy.get('[apptestid="btn_save"]');
+    }
+  
+    get successToast() {
+      return cy.get('.success');
+    }
+  
+    get searchCustomerField() {
+      return cy.get('[apptestid="input_tenant_search"]');
+    }
+  
+    selectCustomerFromDropdown() {
+      this.customerInput.click();
+      return cy.get('[apptestid="customer.euid"]').eq(1).click();
+    }
+  
+    enterDisplayName(name) {
+      this.displayNameField.type(name);
+    }
+  
+    selectEnvironmentType() {
+      this.environmentTypeDropdown.click();
+      return cy.get('[apptestid^="environmentType"]').eq(3).click();
+    }
+  
+    saveTenant() {
+      this.saveButton.click();
+    }
+  
+    verifyTenantCreated() {
+      this.successToast.should('be.visible');
+    }
+  }
+  export default new TenantHomePage();
+  

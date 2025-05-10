@@ -1,25 +1,41 @@
-const loginPage = {
+import UiConstants from '../constants/UiConstants';
 
-    elements: {
-        getLoginPageTitleLabel: () => cy.get('.title'),
-        getSSOButton: () => cy.get('.submit'),
-        getLoginPageHeader: () => cy.get('[id="kc-page-title"]'),
-    },
+class LoginPage {
+    get loginPageTitleLabel() {
+        return cy.get('.title');
+    }
 
-    loginToApplication(_username, _password) {
-        const sentArgs = { username: _username, password: _password }
-        this.elements.getLoginPageTitleLabel().should('have.text', 'Vocera Operations Tools')
-        this.elements.getSSOButton().click()
-        cy.wait(200)
+    get ssoButton() {
+        return cy.get('.submit');
+    }
 
-        cy.origin('https://login.tools.np.vocera.io/', { args: sentArgs }, ({ username, password }) => {
+    get loginPageHeader() {
+        return cy.get('[id="kc-page-title"]');
+    }
 
-            cy.get('#username').type(username)
-            cy.get('#password').type(password)
-            cy.get('#kc-login').click()
+    get userName() {
+        return cy.get('#username');
+    }
 
-        })
+    get password() {
+        return cy.get('#password');
+    }
+
+    get loginButton(){
+        return cy.get('#kc-login');
+    }
+
+    login(username, password) {
+        this.loginPageTitleLabel.should('have.text', UiConstants.Login.PAGE_TITLE);
+        this.ssoButton.click();
+        cy.wait(200);
+
+        cy.origin('https://login.tools.np.vocera.io/', { args: { username, password } }, ({ username, password }) => {
+            this.userName.type(username);
+            this.password.type(password);
+            this.loginButton.click();
+        });
     }
 }
 
-export default loginPage
+export default new LoginPage();

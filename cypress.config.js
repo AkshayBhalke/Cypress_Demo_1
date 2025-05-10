@@ -13,7 +13,7 @@ module.exports = defineConfig({
     openMode: 0
   },
   e2e: {
-  
+
     baseUrl: 'https://www.google.com/',
     username: 'otdev',
     password: 'vocera_16',

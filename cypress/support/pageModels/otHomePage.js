@@ -1,19 +1,21 @@
-import loginPage from "./loginPage"
+import loginPage from './loginPage';
+import UiConstants from '../constants/UiConstants';
 
-const otHomePage = {
+class OtHomePage {
+  get menuOptionButton() {
+    return cy.get('.button-3-points > .material-icons');
+  }
 
-    elements: {
-        getMenuOptionButton: () => cy.get('.button-3-points > .material-icons'),
-        getTenantMenuListItem: () => cy.get('.test_tenant_ui'),
-    },
+  get tenantMenuListItem() {
+    return cy.get('.test_tenant_ui');
+  }
 
-    loginToTenantApplication(_username, _password) {
-        loginPage.loginToApplication(Cypress.config('username'), Cypress.config('password'))
-        this.elements.getMenuOptionButton().click()
-        cy.wait(2000)
-        this.elements.getTenantMenuListItem().click()
-        cy.url({ timeout: 8000 }).should('include', '/tenant')
-    }
+  loginToTenantApp() {
+    loginPage.login(Cypress.config('username'), Cypress.config('password'));
+    this.menuOptionButton.click();
+    cy.wait(2000);
+    this.tenantMenuListItem.click();
+    cy.url({ timeout: 8000 }).should('include', UiConstants.Common.TENANT_URL);
+  }
 }
-
-export default otHomePage
+export default new OtHomePage();

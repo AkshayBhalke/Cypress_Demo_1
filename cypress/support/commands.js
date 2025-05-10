@@ -23,3 +23,10 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('clickOnElement', (element) => {
+    cy.get(element).click();
+})
+
+Cypress.Commands.add('verifyElementContainsText', (element, text) => {
+    cy.get(element).should('have.text', text)
+});

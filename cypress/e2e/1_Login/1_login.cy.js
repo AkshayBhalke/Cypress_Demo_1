@@ -1,37 +1,30 @@
-//login and tenant flow also validation
+import loginPage from '../../support/pageModels/loginPage';
+import otHomePage from '../../support/pageModels/otHomePage';
+import tenantHomePage from '../../support/pageModels/tenantHomePage';
+import UiConstants from '../../support/constants/UiConstants';
 
-import loginPage from "../../support/pageModels/loginPage"
-import otHomePage from "../../support/pageModels/otHomePage"
-import tenantHomePage from "../../support/pageModels/tenantHomePage"
-
-describe('template spec', () => {
-
-  let testData
+describe('Tenant Flow Tests', () => {
+  let testData;
 
   beforeEach(() => {
     cy.fixture('testData.json').then((data) => {
-      testData = data
-    })
-    cy.visit('/')
-  })
+      testData = data;
+    });
+    cy.visit('/');
+  });
 
-  it('Login to Tenant UI - Successful login', () => {
-    
-    otHomePage.loginToTenantApplication()
-    tenantHomePage.elements.getTenantCreateButton().click()
-    tenantHomePage.elements.getDialogTitle().should('have.text', 'General Settings')
-    tenantHomePage.elements.getCustomerLabel().should('have.text', 'Customer*')
-    tenantHomePage.elements.selectCustomerDropDown().click()
-    tenantHomePage.elements.getDisplayNameLabel().should('have.text','Display Name*')
-    tenantHomePage.elements.getDisplayNameField().type('a1 test')
-    tenantHomePage.elements.getEnvironmentTypeLabel().should('have.text','Environment Type*')
-    tenantHomePage.elements.selectEnvironmentTypeDropDown().click()
-    tenantHomePage.elements.getSaveButtton().click()
-    //tenantHomePage.elements.getTenantCreateSuccessfully().should('have.text','Tenant Created Successfully*')
-    tenantHomePage.elements.getTenantCreatedSuccessfully()
-    
-  
-  })
-  
+  it('Login and verify Create Tenant form', () => {
+    otHomePage.loginToTenantApp();
 
-})
+    tenantHomePage.createButton.click();
+    tenantHomePage.dialogTitle.should('have.text', UiConstants.Tenant.DIALOG_TITLE);
+    tenantHomePage.customerLabel.should('have.text', UiConstants.Tenant.CUSTOMER_LABEL);
+    tenantHomePage.selectCustomerFromDropdown();
+    tenantHomePage.displayNameLabel.should('have.text', UiConstants.Tenant.DISPLAY_NAME_LABEL);
+    tenantHomePage.enterDisplayName('a1 test');
+    tenantHomePage.environmentTypeLabel.should('have.text', UiConstants.Tenant.ENVIRONMENT_TYPE_LABEL);
+    tenantHomePage.selectEnvironmentType();
+    tenantHomePage.saveTenant();
+    tenantHomePage.verifyTenantCreated();
+  });
+});
