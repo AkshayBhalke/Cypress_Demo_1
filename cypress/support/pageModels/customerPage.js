@@ -1,8 +1,10 @@
 class CustomerPage {
+
   customerLabel = () => cy.get('[apptestid="customer"]');
   customerDropdownInput = () => cy.get('[apptestid="customer_search_input"]');
   removeCustomerButton = () => cy.get('[apptestid="remove-customer"]');
   options = () => cy.get('.customer-name');
+  dropdownContainer = () => cy.get('.dropdown-container')
 
   clickCustomerDropdown = () => {
     this.customerDropdownInput().click();
@@ -21,7 +23,9 @@ class CustomerPage {
   };
 
   getSelectedCustomer = () => {
-    return this.customerDropdownInput();
+    cy.scrollTo('top');
+    return customerDropdownInput();
+
   };
 }
 

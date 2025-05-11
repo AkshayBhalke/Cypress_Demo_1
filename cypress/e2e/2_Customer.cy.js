@@ -19,16 +19,18 @@ describe('Customer Dropdown Behavior', () => {
 
     // Blur the input and ensure the dropdown options are hidden
     customerPage.customerDropdownInput().blur();
-    customerPage.options().should('not.be.visible');
+    customerPage.dropdownContainer().should('not.exist');
   });
 
   it('TC-02: Should filter and select customer correctly', () => {
     customerPage.clickCustomerDropdown();
     customerPage.typeCustomer('1a');
+    cy.wait(2000)
     // Ensure the input value is correct
     customerPage.customerDropdownInput().should('have.value', '1a');
     customerPage.selectCustomerByName('1a');
-    customerPage.getSelectedCustomer().should('have.text', '1a');
+    customerPage.getSelectedCustomer().should('have.value', '1a');
+    
     // Clear the customer selection and ensure the input is empty
     customerPage.clearCustomerSelection();
     customerPage.customerDropdownInput().should('have.value', '');
